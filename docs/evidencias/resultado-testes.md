@@ -1,6 +1,6 @@
 # Evidência de execução dos testes
 
-Execução de `./mvnw clean verify` em 26/09/2026 às 19:39, com OpenJDK 17.0.20.1 2026-08-18, Spring Boot 4.1.1 e banco H2 em memória.
+Execução de `./mvnw clean verify` em 26/09/2026 às 20:12, com OpenJDK 17.0.20.1 2026-08-18, Spring Boot 4.1.1 e banco H2 em memória.
 
 Para reproduzir, rode o mesmo comando na raiz do projeto: o resultado por teste fica em `target/surefire-reports` e o relatório de cobertura em `target/site/jacoco/index.html`.
 
@@ -13,7 +13,7 @@ Para reproduzir, rode o mesmo comando na raiz do projeto: o resultado por teste 
 | Testes unitários (regras de negócio) | 22 |
 | Falhas | 0 |
 | Cobertura de linhas (JaCoCo) | 95,8% |
-| Cobertura de instruções | 94,7% |
+| Cobertura de instruções | 94,8% |
 | Cobertura de ramos | 84,3% |
 
 ![Relatório de cobertura do JaCoCo](jacoco.png)
@@ -21,18 +21,18 @@ Para reproduzir, rode o mesmo comando na raiz do projeto: o resultado por teste 
 ## Saída do Maven
 
 ```
-[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.234 s -- in Ciclo de vida do agendamento
-[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.83 s -- in Agendamentos de revisão
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.288 s -- in Novidades da rede
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.629 s -- in Usuários e perfis
-[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.817 s -- in Concessionárias e agenda da oficina
-[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.501 s -- in Autenticação: cadastro e login
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in Configuração do JWT
-[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.054 s -- in JWT: proteção dos recursos pelo token
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in Revisão recomendada
-[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.029 s -- in Cálculo do laudo de saúde
-[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.599 s -- in Veículos, laudo e revisão recomendada
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.515 s -- in Padrão das respostas de erro
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.137 s -- in Configuração do JWT
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.124 s -- in JWT: proteção dos recursos pelo token
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 s -- in Revisão recomendada
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 s -- in Cálculo do laudo de saúde
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in Ciclo de vida do agendamento
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.263 s -- in Padrão das respostas de erro
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.241 s -- in Novidades da rede
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.492 s -- in Autenticação: cadastro e login
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.601 s -- in Usuários e perfis
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.620 s -- in Agendamentos de revisão
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.964 s -- in Veículos, laudo e revisão recomendada
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.667 s -- in Concessionárias e agenda da oficina
 [INFO] Tests run: 99, Failures: 0, Errors: 0, Skipped: 0
 [INFO] BUILD SUCCESS
 ```
@@ -41,7 +41,7 @@ Para reproduzir, rode o mesmo comando na raiz do projeto: o resultado por teste 
 
 ### Autenticação: cadastro e login
 
-Integração · `com.fordretain.api.auth.AuthIntegrationTest` · 9 testes · 0.50 s
+Integração · `com.fordretain.api.controller.AuthIntegrationTest` · 9 testes · 0.49 s
 
 | Cenário | Resultado |
 | --- | --- |
@@ -57,7 +57,7 @@ Integração · `com.fordretain.api.auth.AuthIntegrationTest` · 9 testes · 0.5
 
 ### JWT: proteção dos recursos pelo token
 
-Integração · `com.fordretain.api.security.JwtSecurityIntegrationTest` · 10 testes · 1.05 s
+Integração · `com.fordretain.api.security.JwtSecurityIntegrationTest` · 10 testes · 9.12 s
 
 | Cenário | Resultado |
 | --- | --- |
@@ -74,7 +74,7 @@ Integração · `com.fordretain.api.security.JwtSecurityIntegrationTest` · 10 t
 
 ### Usuários e perfis
 
-Integração · `com.fordretain.api.user.UserIntegrationTest` · 6 testes · 0.63 s
+Integração · `com.fordretain.api.controller.UserIntegrationTest` · 6 testes · 0.60 s
 
 | Cenário | Resultado |
 | --- | --- |
@@ -87,7 +87,7 @@ Integração · `com.fordretain.api.user.UserIntegrationTest` · 6 testes · 0.6
 
 ### Veículos, laudo e revisão recomendada
 
-Integração · `com.fordretain.api.vehicle.VehicleIntegrationTest` · 16 testes · 2.60 s
+Integração · `com.fordretain.api.controller.VehicleIntegrationTest` · 16 testes · 1.96 s
 
 | Cenário | Resultado |
 | --- | --- |
@@ -110,7 +110,7 @@ Integração · `com.fordretain.api.vehicle.VehicleIntegrationTest` · 16 testes
 
 ### Agendamentos de revisão
 
-Integração · `com.fordretain.api.booking.BookingIntegrationTest` · 13 testes · 15.83 s
+Integração · `com.fordretain.api.controller.BookingIntegrationTest` · 13 testes · 2.62 s
 
 | Cenário | Resultado |
 | --- | --- |
@@ -130,7 +130,7 @@ Integração · `com.fordretain.api.booking.BookingIntegrationTest` · 13 testes
 
 ### Concessionárias e agenda da oficina
 
-Integração · `com.fordretain.api.dealer.DealerIntegrationTest` · 11 testes · 0.82 s
+Integração · `com.fordretain.api.controller.DealerIntegrationTest` · 11 testes · 0.67 s
 
 | Cenário | Resultado |
 | --- | --- |
@@ -148,7 +148,7 @@ Integração · `com.fordretain.api.dealer.DealerIntegrationTest` · 11 testes �
 
 ### Novidades da rede
 
-Integração · `com.fordretain.api.news.NewsIntegrationTest` · 6 testes · 0.29 s
+Integração · `com.fordretain.api.controller.NewsIntegrationTest` · 6 testes · 0.24 s
 
 | Cenário | Resultado |
 | --- | --- |
@@ -161,7 +161,7 @@ Integração · `com.fordretain.api.news.NewsIntegrationTest` · 6 testes · 0.2
 
 ### Padrão das respostas de erro
 
-Integração · `com.fordretain.api.common.ErrorResponseIntegrationTest` · 6 testes · 0.52 s
+Integração · `com.fordretain.api.exception.ErrorResponseIntegrationTest` · 6 testes · 0.26 s
 
 | Cenário | Resultado |
 | --- | --- |
@@ -174,7 +174,7 @@ Integração · `com.fordretain.api.common.ErrorResponseIntegrationTest` · 6 te
 
 ### Cálculo do laudo de saúde
 
-Unitário · `com.fordretain.api.vehicle.health.HealthCalculatorTest` · 10 testes · 0.03 s
+Unitário · `com.fordretain.api.component.HealthCalculatorTest` · 10 testes · 0.05 s
 
 | Cenário | Resultado |
 | --- | --- |
@@ -191,7 +191,7 @@ Unitário · `com.fordretain.api.vehicle.health.HealthCalculatorTest` · 10 test
 
 ### Revisão recomendada
 
-Unitário · `com.fordretain.api.vehicle.health.QuoteCalculatorTest` · 2 testes · 0.02 s
+Unitário · `com.fordretain.api.component.QuoteCalculatorTest` · 2 testes · 0.02 s
 
 | Cenário | Resultado |
 | --- | --- |
@@ -200,7 +200,7 @@ Unitário · `com.fordretain.api.vehicle.health.QuoteCalculatorTest` · 2 testes
 
 ### Ciclo de vida do agendamento
 
-Unitário · `com.fordretain.api.booking.BookingStatusTest` · 8 testes · 0.23 s
+Unitário · `com.fordretain.api.model.enums.BookingStatusTest` · 8 testes · 0.01 s
 
 | Cenário | Resultado |
 | --- | --- |
@@ -215,7 +215,7 @@ Unitário · `com.fordretain.api.booking.BookingStatusTest` · 8 testes · 0.23 
 
 ### Configuração do JWT
 
-Unitário · `com.fordretain.api.security.JwtPropertiesTest` · 2 testes · 0.02 s
+Unitário · `com.fordretain.api.security.JwtPropertiesTest` · 2 testes · 0.14 s
 
 | Cenário | Resultado |
 | --- | --- |
