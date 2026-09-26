@@ -21,3 +21,11 @@ management:
     web:
       exposure:
         include: health
+
+app:
+  security:
+    jwt:
+      # Em produção, defina JWT_SECRET com pelo menos 32 caracteres aleatórios.
+      secret: ${JWT_SECRET:ford-retain-dev-secret-troque-em-producao-2026}
+      issuer: ford-retain-api
+      expiration: ${JWT_EXPIRATION:1h}
