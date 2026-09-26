@@ -1,7 +1,5 @@
 package com.fordretain.api.model.enums;
 
-
-/** Status de um componente ou sistema, do mais tranquilo ao mais grave. */
 public enum HealthStatus {
 	OK,
 	ATTENTION,
@@ -10,7 +8,6 @@ public enum HealthStatus {
 	static final int URGENT_BELOW = 40;
 	static final int ATTENTION_BELOW = 75;
 
-	/** Nota abaixo de 40: urgente; abaixo de 75: atenção; o resto está em dia. */
 	public static HealthStatus of(int health) {
 		if (health < URGENT_BELOW) {
 			return URGENT;

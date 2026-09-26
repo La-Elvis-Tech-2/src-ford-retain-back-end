@@ -5,13 +5,6 @@ import java.time.Duration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-/**
- * Configuração do token: segredo HMAC, emissor e validade.
- *
- * @param secret chave do HS256; precisa de pelo menos 32 bytes (256 bits)
- * @param issuer valor do claim {@code iss}, conferido na validação
- * @param expiration tempo de vida do token de acesso
- */
 @ConfigurationProperties("app.security.jwt")
 public record JwtProperties(String secret, String issuer, Duration expiration) {
 

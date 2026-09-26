@@ -37,16 +37,6 @@ import com.fordretain.api.repository.ServiceSlotRepository;
 import com.fordretain.api.repository.UserRepository;
 import com.fordretain.api.repository.VehicleRepository;
 
-/**
- * Dados de demonstração, carregados quando o banco está vazio.
- *
- * Reproduz o cenário do app mobile: a Ranger com óleo e pastilha urgentes, as
- * três concessionárias no caminho do cliente com a agenda das próximas
- * semanas e as novidades da rede. Há uma conta de cada perfil e um segundo
- * cliente, para demonstrar que um cliente não enxerga os dados do outro.
- *
- * Desligue com {@code DEMO_DATA=false}.
- */
 @Component
 @ConditionalOnProperty(name = "app.demo-data.enabled", havingValue = "true")
 public class DemoDataSeeder implements ApplicationRunner {
@@ -115,7 +105,6 @@ public class DemoDataSeeder implements ApplicationRunner {
 		return dealers.save(new Dealer(name, address, district, new BigDecimal(rating), reviews, now));
 	}
 
-	/** Os horários da semana viram datas reais a partir de amanhã, no fuso de São Paulo. */
 	private void agenda(Dealer dealer, Map<DayOfWeek, List<String>> openings) {
 		LocalDate today = LocalDate.now(clock.withZone(SAO_PAULO));
 		for (int offset = 1; offset <= AGENDA_DAYS; offset++) {
@@ -161,7 +150,6 @@ public class DemoDataSeeder implements ApplicationRunner {
 		vehicles.save(territory);
 	}
 
-	/** A revisão já feita na rede: o histórico que o laudo mostra ao cliente. */
 	private void lastService(User customer, Vehicle vehicle, Dealer dealer, Instant now) {
 		ServiceSlot past = new ServiceSlot(dealer, now.minus(Duration.ofDays(330)));
 		past.reserve();

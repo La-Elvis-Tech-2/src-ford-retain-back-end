@@ -13,12 +13,6 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-/**
- * Leva os 401 e 403 do filtro de segurança para o {@code ApiExceptionHandler}.
- *
- * Sem isso, falhas de autenticação sairiam no formato padrão do Spring
- * Security (corpo vazio), diferente do resto da API.
- */
 @Component
 public class ProblemSecurityHandlers implements AuthenticationEntryPoint, AccessDeniedHandler {
 

@@ -20,14 +20,6 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 
 import com.fordretain.api.service.TokenService;
 
-/**
- * Assinatura e validação do JWT com HMAC-SHA256.
- *
- * A validação confere, além da assinatura: expiração ({@code exp}) e início de
- * validade ({@code nbf}) contra o relógio da aplicação, o emissor ({@code iss})
- * e a presença do perfil ({@code roles}). Um token que falhe em qualquer uma
- * dessas regras é recusado com 401.
- */
 @Configuration
 public class JwtConfig {
 

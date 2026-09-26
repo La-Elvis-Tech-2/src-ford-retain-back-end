@@ -36,7 +36,6 @@ public class UserService {
 		this.clock = clock;
 	}
 
-	/** Cadastro público: sempre cria um cliente. */
 	@Transactional
 	public User registerCustomer(String name, String email, String password) {
 		return save(name, email, password, Role.CUSTOMER, null);

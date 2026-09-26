@@ -2,10 +2,6 @@ package com.fordretain.api.exception;
 
 import org.springframework.http.HttpStatus;
 
-/**
- * Erro de negócio com status HTTP e código estável. O {@link ApiExceptionHandler}
- * converte qualquer subclasse no mesmo formato de resposta.
- */
 public abstract class ApiException extends RuntimeException {
 
 	private final HttpStatus status;

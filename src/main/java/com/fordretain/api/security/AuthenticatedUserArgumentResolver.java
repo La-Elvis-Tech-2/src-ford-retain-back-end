@@ -12,7 +12,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-/** Injeta o {@link AuthenticatedUser} nos métodos dos controllers que o declaram. */
 @Component
 public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentResolver {
 

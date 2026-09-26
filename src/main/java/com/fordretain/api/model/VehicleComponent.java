@@ -16,11 +16,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-/**
- * A leitura atual de um componente. {@code health} vai de 0 a 100 e é a nota
- * dada pela leitura dos módulos; {@code healthLastWeek} é a mesma nota sete
- * dias antes, de onde sai a variação do laudo.
- */
 @Entity
 @Table(name = "vehicle_components")
 public class VehicleComponent {
@@ -62,7 +57,6 @@ public class VehicleComponent {
 		this.updatedAt = updatedAt;
 	}
 
-	/** Registra uma nova leitura; a referência da semana anterior não muda. */
 	public void record(int health, String detail, Instant readAt) {
 		this.health = health;
 		this.detail = detail;

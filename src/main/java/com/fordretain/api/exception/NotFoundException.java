@@ -2,7 +2,6 @@ package com.fordretain.api.exception;
 
 import org.springframework.http.HttpStatus;
 
-/** Recurso inexistente, ou que o usuário autenticado não tem permissão de ver. */
 public class NotFoundException extends ApiException {
 
 	public NotFoundException(String resource, Object id) {

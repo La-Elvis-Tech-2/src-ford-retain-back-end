@@ -10,11 +10,6 @@ import com.fordretain.api.model.Vehicle;
 import com.fordretain.api.model.VehicleComponent;
 import com.fordretain.api.model.enums.HealthStatus;
 
-/**
- * Monta a revisão recomendada: um item para cada componente fora do status
- * "em dia", do mais grave para o mais tranquilo, com peças e mão de obra
- * somadas numa visita só.
- */
 @Component
 public class QuoteCalculator {
 

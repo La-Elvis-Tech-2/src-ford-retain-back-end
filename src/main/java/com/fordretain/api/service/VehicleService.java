@@ -28,13 +28,6 @@ import com.fordretain.api.repository.UserRepository;
 import com.fordretain.api.repository.VehicleRepository;
 import com.fordretain.api.security.AuthenticatedUser;
 
-/**
- * Veículos e laudos.
- *
- * O cliente só enxerga os próprios veículos: o de outra pessoa responde 404,
- * como se não existisse, para não confirmar que aquela placa está cadastrada.
- * O administrador enxerga todos.
- */
 @Service
 @Transactional(readOnly = true)
 public class VehicleService {
@@ -108,7 +101,6 @@ public class VehicleService {
 		return quoteCalculator.quote(get(id, user));
 	}
 
-	/** Grava a leitura que a integração com os módulos do veículo enviou. */
 	@Transactional
 	public VehicleComponent recordReading(Long id, ComponentType type, ComponentReadingRequest request,
 			AuthenticatedUser user) {

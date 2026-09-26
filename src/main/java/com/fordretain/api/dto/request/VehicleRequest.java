@@ -17,6 +17,5 @@ public record VehicleRequest(
 		@Schema(example = "Azul Belize") @NotBlank(message = "é obrigatória") @Size(max = 40, message = "deve ter no máximo 40 caracteres") String color,
 		@Schema(example = "12500") @NotNull(message = "é obrigatória") @PositiveOrZero(message = "não pode ser negativa") Integer mileageKm) {
 
-	/** Três letras, um dígito, letra ou dígito, dois dígitos; hífen opcional. */
 	public static final String PLATE = "^[A-Za-z]{3}-?[0-9][A-Za-z0-9][0-9]{2}$";
 }

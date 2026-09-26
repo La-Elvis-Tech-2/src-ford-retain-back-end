@@ -7,10 +7,6 @@ import com.fordretain.api.exception.ApiExceptionHandler.FieldViolation;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-/**
- * Formato de toda resposta de erro, só para a documentação OpenAPI. Em tempo de
- * execução o corpo é um {@code ProblemDetail} do Spring com os mesmos campos.
- */
 @Schema(name = "Problem", description = "Erro no formato Problem Details (RFC 9457)")
 public record ProblemResponse(
 		@Schema(example = "Não encontrado") String title,

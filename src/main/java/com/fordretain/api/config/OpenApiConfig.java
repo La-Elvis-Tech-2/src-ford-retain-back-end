@@ -29,15 +29,6 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 
-/**
- * Documentação OpenAPI servida em {@code /v3/api-docs} e no Swagger UI.
- *
- * As respostas de erro comuns são acrescentadas a partir da assinatura de cada
- * endpoint, para a documentação não depender de anotação repetida:
- * corpo validado gera 400, id na rota gera 404, token exigido gera 401 e
- * perfil exigido gera 403. Toda resposta 4xx/5xx aponta para o schema
- * {@code Problem}.
- */
 @Configuration
 @OpenAPIDefinition(info = @Info(
 		title = "Ford Retain API",
@@ -51,7 +42,6 @@ public class OpenApiConfig {
 	private static final String PROBLEM_MEDIA_TYPE = "application/problem+json";
 
 	static {
-		// O usuário autenticado vem do token, não de parâmetro da requisição.
 		SpringDocUtils.getConfig().addRequestWrapperToIgnore(AuthenticatedUser.class);
 	}
 

@@ -21,17 +21,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.fordretain.api.service.TokenService;
 
-/**
- * Regras de acesso da API.
- *
- * Duas camadas: aqui ficam as rotas públicas e a exigência de token para todo o
- * resto; nos controllers, {@code @PreAuthorize} restringe cada operação ao
- * perfil certo. A posse dos dados (o veículo é do cliente, o agendamento é da
- * concessionária) é conferida nos services.
- *
- * A API é stateless: sem sessão e sem CSRF, cada requisição se autentica pelo
- * token Bearer.
- */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -65,7 +54,6 @@ public class SecurityConfig {
 		return http.build();
 	}
 
-	/** O claim {@code roles} vira as authorities {@code ROLE_*} usadas no {@code @PreAuthorize}. */
 	@Bean
 	JwtAuthenticationConverter jwtAuthenticationConverter() {
 		JwtGrantedAuthoritiesConverter authorities = new JwtGrantedAuthoritiesConverter();
@@ -82,7 +70,6 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
-	/** O app mobile e o Swagger podem chamar a API de qualquer origem; o token é que autoriza. */
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration cors = new CorsConfiguration();

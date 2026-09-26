@@ -7,14 +7,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import com.fordretain.api.model.enums.Role;
 import com.fordretain.api.service.TokenService;
 
-/**
- * Quem está chamando a API, lido do token já validado.
- *
- * Os controllers recebem este tipo como parâmetro (ver
- * {@link AuthenticatedUserArgumentResolver}) e os services decidem a posse dos
- * recursos a partir dele: um cliente só enxerga os próprios veículos, uma
- * concessionária só os próprios agendamentos.
- */
 public record AuthenticatedUser(Long id, Role role, Long dealerId) {
 
 	public static AuthenticatedUser from(Jwt jwt) {

@@ -17,17 +17,6 @@ import com.fordretain.api.model.VehicleComponent;
 import com.fordretain.api.model.enums.HealthStatus;
 import com.fordretain.api.model.enums.VehicleSystem;
 
-/**
- * As contas do laudo, iguais às do app mobile.
- *
- * <ul>
- * <li>Status de cada componente: ver {@link HealthStatus#of(int)}.</li>
- * <li>Nota de um conjunto: média simples das notas, arredondada.</li>
- * <li>Variação: diferença entre as médias JÁ arredondadas de hoje e da semana
- * anterior, para o número exibido sempre bater com a conta que o cliente faz.</li>
- * <li>Status de um conjunto: o pior status entre os componentes.</li>
- * </ul>
- */
 @Component
 public class HealthCalculator {
 

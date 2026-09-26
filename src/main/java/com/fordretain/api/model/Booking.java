@@ -40,7 +40,6 @@ public class Booking {
 	@Column(nullable = false, length = 20)
 	private BookingStatus status;
 
-	/** Valor da revisão recomendada no momento do agendamento. */
 	@Column(name = "total_cents", nullable = false)
 	private long totalCents;
 

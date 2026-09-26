@@ -34,17 +34,6 @@ import org.springframework.web.method.annotation.HandlerMethodValidationExceptio
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-/**
- * Ponto único de tradução de erros para HTTP.
- *
- * Toda resposta de erro segue o Problem Details (RFC 9457,
- * {@code application/problem+json}) com os mesmos campos extras: {@code code},
- * estável para o cliente tratar, e {@code timestamp}. Erros de validação
- * trazem ainda a lista {@code errors} com o campo e o motivo.
- *
- * Também recebe os 401 e 403 do filtro de segurança (ver
- * {@code ProblemSecurityHandlers}), para que a API tenha um formato só.
- */
 @RestControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -147,12 +136,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, problem, headers, HttpStatus.BAD_REQUEST, request);
 	}
 
-	/**
-	 * Todos os caminhos passam por aqui, inclusive os erros do próprio Spring MVC
-	 * (JSON malformado, método não suportado, rota inexistente): é onde a
-	 * resposta ganha título em português, {@code code}, {@code timestamp} e
-	 * {@code instance}.
-	 */
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
 			HttpStatusCode statusCode, WebRequest request) {
@@ -202,7 +185,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return error.getDefaultMessage() != null ? error.getDefaultMessage() : "valor inválido";
 	}
 
-	/** Um campo rejeitado pela validação e o motivo. */
 	public record FieldViolation(String field, String message) {
 	}
 }

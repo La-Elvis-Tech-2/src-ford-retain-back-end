@@ -1,7 +1,5 @@
 package com.fordretain.api.model.enums;
 
-
-/** Os quatro sistemas do laudo. Cada componente pertence a exatamente um. */
 public enum VehicleSystem {
 	ENGINE("Motor"),
 	BRAKES("Freios"),

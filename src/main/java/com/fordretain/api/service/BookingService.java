@@ -24,20 +24,6 @@ import com.fordretain.api.repository.ServiceSlotRepository;
 import com.fordretain.api.repository.UserRepository;
 import com.fordretain.api.security.AuthenticatedUser;
 
-/**
- * Agendamentos de revisão.
- *
- * Cada perfil enxerga um recorte: o cliente, os próprios; o atendente, os da
- * sua concessionária; o administrador, todos. Fora do recorte, o agendamento
- * responde 404.
- *
- * Quem pode mudar o status: o cliente só cancela; o atendente e o
- * administrador confirmam, concluem e cancelam. A transição também precisa
- * ser válida no ciclo de vida ({@link BookingStatus#canMoveTo}).
- *
- * As respostas são montadas dentro da transação: concessionária, veículo e
- * cliente são carregados sob demanda e não existem mais depois dela.
- */
 @Service
 @Transactional(readOnly = true)
 public class BookingService {

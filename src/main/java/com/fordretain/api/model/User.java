@@ -37,7 +37,6 @@ public class User {
 	@Column(nullable = false, length = 20)
 	private Role role;
 
-	/** Só para {@link Role#DEALER}: a concessionária em que a pessoa atende. */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "dealer_id")
 	private Dealer dealer;

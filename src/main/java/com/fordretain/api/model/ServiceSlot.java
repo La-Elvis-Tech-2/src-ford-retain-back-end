@@ -13,10 +13,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 
-/**
- * Um horário da oficina. {@code @Version} garante que duas reservas simultâneas
- * do mesmo horário não passem: a segunda falha com 409.
- */
 @Entity
 @Table(name = "service_slots")
 public class ServiceSlot {

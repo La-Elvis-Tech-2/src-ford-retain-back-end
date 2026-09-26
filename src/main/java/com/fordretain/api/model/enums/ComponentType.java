@@ -1,11 +1,5 @@
 package com.fordretain.api.model.enums;
 
-
-/**
- * Os componentes lidos pelos módulos do veículo e o serviço que cada um pede
- * quando sai do status "em dia". Os valores em centavos formam o orçamento
- * (ver {@code QuoteCalculator}).
- */
 public enum ComponentType {
 	OIL(VehicleSystem.ENGINE, "Óleo e filtro", "Troca de óleo sintético 5W30 e filtro de óleo", 520_00, 100_00, 30),
 	AIR_FILTER(VehicleSystem.ENGINE, "Filtro de ar", "Troca do filtro de ar do motor", 165_00, 35_00, 10),

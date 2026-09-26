@@ -15,14 +15,6 @@ import org.springframework.stereotype.Service;
 import com.fordretain.api.model.User;
 import com.fordretain.api.security.JwtProperties;
 
-/**
- * Emite o token de acesso depois do login.
- *
- * O token carrega só o necessário para autorizar sem ir ao banco: o id do
- * usuário em {@code sub}, o perfil em {@code roles} e, para quem atende numa
- * concessionária, o {@code dealerId}. Nome e e-mail vão como informação de
- * exibição; nenhum dado sensível (senha, hash) entra no token.
- */
 @Service
 public class TokenService {
 
@@ -62,7 +54,6 @@ public class TokenService {
 		return new IssuedToken(value, expiresAt, properties.expiration().toSeconds());
 	}
 
-	/** O token assinado e quando ele deixa de valer. */
 	public record IssuedToken(String value, Instant expiresAt, long expiresInSeconds) {
 	}
 }

@@ -24,7 +24,6 @@ import jakarta.persistence.Table;
 @Table(name = "vehicles")
 public class Vehicle {
 
-	/** Carro recém-cadastrado ainda não teve leitura dos módulos. */
 	static final String AWAITING_READING = "Aguardando a primeira leitura dos módulos.";
 
 	@Id
@@ -71,7 +70,6 @@ public class Vehicle {
 		this.createdAt = createdAt;
 	}
 
-	/** Cria a lista completa de componentes, todos aguardando leitura. */
 	public void initializeComponents(Instant now) {
 		for (ComponentType type : ComponentType.values()) {
 			components.add(new VehicleComponent(this, type, 100, 100, AWAITING_READING, now));

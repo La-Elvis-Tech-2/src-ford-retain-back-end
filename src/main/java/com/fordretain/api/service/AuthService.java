@@ -18,10 +18,6 @@ import com.fordretain.api.service.TokenService.IssuedToken;
 @Service
 public class AuthService {
 
-	/**
-	 * Hash de uma senha qualquer, usado quando o e-mail não existe: o BCrypt roda
-	 * do mesmo jeito, e o tempo de resposta não revela quais e-mails têm conta.
-	 */
 	private final String dummyHash;
 
 	private final UserRepository users;

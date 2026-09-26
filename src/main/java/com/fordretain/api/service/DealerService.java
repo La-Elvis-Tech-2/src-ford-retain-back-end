@@ -64,7 +64,6 @@ public class DealerService {
 		return dealer;
 	}
 
-	/** Só sai da rede quem não tem histórico: agendamentos e atendentes seguram a exclusão. */
 	@Transactional
 	public void delete(Long id) {
 		Dealer dealer = get(id);
@@ -77,7 +76,6 @@ public class DealerService {
 		dealers.delete(dealer);
 	}
 
-	/** Os horários livres daqui para a frente, do mais próximo ao mais distante. */
 	public List<ServiceSlot> availableSlots(Long dealerId) {
 		get(dealerId);
 		return slots.findByDealerIdAndAvailableTrueAndStartsAtAfterOrderByStartsAtAsc(dealerId, clock.instant());
