@@ -29,3 +29,5 @@ app:
       secret: ${JWT_SECRET:ford-retain-dev-secret-troque-em-producao-2026}
       issuer: ford-retain-api
       expiration: ${JWT_EXPIRATION:1h}
+  demo-data:
+    enabled: ${DEMO_DATA:true}
