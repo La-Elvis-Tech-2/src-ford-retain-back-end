@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.method.HandlerMethod;
 
-import com.fordretain.api.common.error.ProblemResponse;
+import com.fordretain.api.dto.response.ProblemResponse;
 import com.fordretain.api.security.AuthenticatedUser;
 
 import io.swagger.v3.core.converter.ModelConverters;

@@ -4,7 +4,8 @@ import java.util.List;
 
 import org.springframework.security.oauth2.jwt.Jwt;
 
-import com.fordretain.api.user.Role;
+import com.fordretain.api.model.enums.Role;
+import com.fordretain.api.service.TokenService;
 
 /**
  * Quem está chamando a API, lido do token já validado.

@@ -3,7 +3,6 @@ package com.fordretain.api.security;
 import java.nio.charset.StandardCharsets;
 import java.time.Clock;
 import java.util.List;
-
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -18,6 +17,8 @@ import org.springframework.security.oauth2.jwt.JwtIssuerValidator;
 import org.springframework.security.oauth2.jwt.JwtTimestampValidator;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+
+import com.fordretain.api.service.TokenService;
 
 /**
  * Assinatura e validação do JWT com HMAC-SHA256.
