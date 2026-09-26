@@ -144,7 +144,6 @@ class DealerIntegrationTest extends IntegrationTest {
 				"reviewCount", 540);
 	}
 
-	/** Um horário fora da agenda de demonstração (que cobre só as próximas três semanas). */
 	private static Instant futureSlot(int days) {
 		return Instant.now().plus(Duration.ofDays(days)).truncatedTo(ChronoUnit.HOURS);
 	}

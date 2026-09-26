@@ -21,16 +21,6 @@ import com.jayway.jsonpath.JsonPath;
 
 import tools.jackson.databind.json.JsonMapper;
 
-/**
- * Base dos testes de integração: a aplicação inteira sobe com o banco H2 e os
- * dados de demonstração, e as requisições passam pela cadeia real de
- * segurança (token emitido por POST /auth/login, validado pelo filtro JWT).
- *
- * Os testes NÃO rodam dentro de uma transação com rollback: assim a
- * serialização acontece fora da transação, como em produção. Para não
- * dependerem da ordem, os testes que alteram dados criam os próprios clientes,
- * veículos e concessionárias.
- */
 @SpringBootTest
 @AutoConfigureMockMvc
 public abstract class IntegrationTest {
@@ -44,7 +34,6 @@ public abstract class IntegrationTest {
 	protected static final String ADMIN = "admin@fordretain.com";
 	protected static final String ADMIN_PASSWORD = "Admin@123";
 
-	/** Ids fixos dos dados de demonstração. */
 	protected static final long RANGER_ID = 1;
 	protected static final long TERRITORY_ID = 2;
 	protected static final long TATUAPE_ID = 1;
@@ -77,7 +66,6 @@ public abstract class IntegrationTest {
 		return login(ADMIN, ADMIN_PASSWORD);
 	}
 
-	/** Um cliente novo, cadastrado pelo endpoint público, já com token. */
 	protected Customer newCustomer() throws Exception {
 		String email = "cliente-" + UUID.randomUUID() + "@teste.com";
 		MvcResult result = mvc.perform(post("/auth/register").contentType(MediaType.APPLICATION_JSON)
@@ -87,7 +75,6 @@ public abstract class IntegrationTest {
 		return new Customer(id(result), login(email, "Senha@2026"));
 	}
 
-	/** Cadastra um veículo com placa única e devolve o id. */
 	protected long newVehicle(String token) throws Exception {
 		MvcResult result = mvc.perform(post("/vehicles").with(bearer(token)).contentType(MediaType.APPLICATION_JSON)
 				.content(json("plate", uniquePlate(), "model", "Ranger XLS 2.2", "modelYear", 2024, "color", "Azul Belize",
@@ -102,7 +89,6 @@ public abstract class IntegrationTest {
 		return ((Number) JsonPath.read(result.getResponse().getContentAsString(), "$[0].id")).longValue();
 	}
 
-	/** Agenda a revisão de um veículo no primeiro horário livre da concessionária. */
 	protected long book(String token, long vehicleId, long dealerId) throws Exception {
 		MvcResult result = mvc.perform(post("/bookings").with(bearer(token)).contentType(MediaType.APPLICATION_JSON)
 				.content(json("vehicleId", vehicleId, "slotId", firstAvailableSlot(dealerId))))
@@ -122,7 +108,6 @@ public abstract class IntegrationTest {
 		return ((Number) JsonPath.read(result.getResponse().getContentAsString(), "$.id")).longValue();
 	}
 
-	/** Monta um JSON a partir de pares chave/valor. */
 	protected static String json(Object... keysAndValues) {
 		Map<String, Object> body = new LinkedHashMap<>();
 		for (int i = 0; i < keysAndValues.length; i += 2) {
@@ -131,7 +116,6 @@ public abstract class IntegrationTest {
 		return MAPPER.writeValueAsString(body);
 	}
 
-	/** Placa Mercosul única na execução: TST + dígito + letra + dois dígitos. */
 	protected static String uniquePlate() {
 		int n = SEQUENCE.incrementAndGet();
 		return "TST" + (n % 10) + (char) ('A' + (n / 10) % 26) + String.format("%02d", (n / 260) % 100);

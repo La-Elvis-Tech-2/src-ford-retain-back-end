@@ -54,7 +54,6 @@ class HealthCalculatorTest {
 	@DisplayName("A variação é a diferença entre as médias já arredondadas")
 	void deltaUsesRoundedMeans() {
 		Vehicle vehicle = new Vehicle(null, "ABC1D23", "Ka", 2020, "Prata", 50_000, NOW);
-		// hoje: (31 + 88) / 2 = 59,5 -> 60 · semana anterior: (35 + 88) / 2 = 61,5 -> 62
 		vehicle.addReading(ComponentType.BRAKE_PAD, 31, 35, null, NOW);
 		vehicle.addReading(ComponentType.BRAKE_FLUID, 88, 88, null, NOW);
 
