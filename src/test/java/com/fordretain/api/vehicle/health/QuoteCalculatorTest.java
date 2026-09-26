@@ -13,10 +13,12 @@ import com.fordretain.api.vehicle.Vehicle;
 @DisplayName("Revisão recomendada")
 class QuoteCalculatorTest {
 
+	private final QuoteCalculator calculator = new QuoteCalculator();
+
 	@Test
 	@DisplayName("Orça a revisão da Ranger em R$ 1.595 com 1h30 de serviço, como no app")
 	void rangerQuote() {
-		ServiceQuote quote = QuoteCalculator.quote(HealthCalculatorTest.ranger());
+		ServiceQuote quote = calculator.quote(HealthCalculatorTest.ranger());
 
 		assertThat(quote.serviceRecommended()).isTrue();
 		assertThat(quote.items()).extracting(ServiceQuote.Item::component).containsExactly(ComponentType.OIL,
@@ -33,7 +35,7 @@ class QuoteCalculatorTest {
 		Vehicle vehicle = new Vehicle(null, "ABC1D23", "Ka", 2020, "Prata", 50_000, Instant.EPOCH);
 		vehicle.initializeComponents(Instant.EPOCH);
 
-		ServiceQuote quote = QuoteCalculator.quote(vehicle);
+		ServiceQuote quote = calculator.quote(vehicle);
 
 		assertThat(quote.serviceRecommended()).isFalse();
 		assertThat(quote.items()).isEmpty();

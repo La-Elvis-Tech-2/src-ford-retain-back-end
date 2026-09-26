@@ -21,17 +21,19 @@ class HealthCalculatorTest {
 
 	private static final Instant NOW = Instant.parse("2026-09-26T10:12:00Z");
 
+	private final HealthCalculator calculator = new HealthCalculator();
+
 	@ParameterizedTest(name = "nota {0} -> {1}")
 	@CsvSource({ "0, URGENT", "39, URGENT", "40, ATTENTION", "74, ATTENTION", "75, OK", "100, OK" })
 	@DisplayName("Converte a nota em status nos limites de 40 e 75")
 	void statusThresholds(int health, HealthStatus expected) {
-		assertThat(HealthCalculator.statusOf(health)).isEqualTo(expected);
+		assertThat(HealthStatus.of(health)).isEqualTo(expected);
 	}
 
 	@Test
 	@DisplayName("Reproduz o laudo da Ranger do app: 67 geral, com variação de -2")
 	void rangerReport() {
-		HealthReport report = HealthCalculator.report(ranger());
+		HealthReport report = calculator.report(ranger());
 
 		assertThat(report.overall().score()).isEqualTo(67);
 		assertThat(report.overall().delta()).isEqualTo(-2);
@@ -54,7 +56,7 @@ class HealthCalculatorTest {
 		vehicle.addReading(ComponentType.BRAKE_PAD, 31, 35, null, NOW);
 		vehicle.addReading(ComponentType.BRAKE_FLUID, 88, 88, null, NOW);
 
-		HealthReport.Score score = HealthCalculator.scoreOf(vehicle.getComponents());
+		HealthReport.Score score = calculator.scoreOf(vehicle.getComponents());
 
 		assertThat(score.score()).isEqualTo(60);
 		assertThat(score.delta()).isEqualTo(-2);
@@ -67,13 +69,13 @@ class HealthCalculatorTest {
 		vehicle.addReading(ComponentType.OIL, 95, 95, null, NOW);
 		vehicle.addReading(ComponentType.AIR_FILTER, 60, 60, null, NOW);
 
-		assertThat(HealthCalculator.worstStatus(vehicle.getComponents())).isEqualTo(HealthStatus.ATTENTION);
+		assertThat(calculator.worstStatus(vehicle.getComponents())).isEqualTo(HealthStatus.ATTENTION);
 	}
 
 	@Test
 	@DisplayName("Ordena os componentes de cada sistema do mais grave para o mais tranquilo")
 	void componentsSortedByUrgency() {
-		HealthReport report = HealthCalculator.report(ranger());
+		HealthReport report = calculator.report(ranger());
 
 		List<Integer> engine = report.systems().get(0).components().stream().map(HealthReport.ComponentHealth::health).toList();
 		assertThat(engine).containsExactly(18, 58, 64, 86, 92, 95);

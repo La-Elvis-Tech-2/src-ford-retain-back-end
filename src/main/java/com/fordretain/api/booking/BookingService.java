@@ -42,14 +42,16 @@ public class BookingService {
 	private final ServiceSlotRepository slots;
 	private final VehicleService vehicles;
 	private final UserRepository users;
+	private final QuoteCalculator quoteCalculator;
 	private final Clock clock;
 
 	public BookingService(BookingRepository bookings, ServiceSlotRepository slots, VehicleService vehicles,
-			UserRepository users, Clock clock) {
+			UserRepository users, QuoteCalculator quoteCalculator, Clock clock) {
 		this.bookings = bookings;
 		this.slots = slots;
 		this.vehicles = vehicles;
 		this.users = users;
+		this.quoteCalculator = quoteCalculator;
 		this.clock = clock;
 	}
 
@@ -72,7 +74,7 @@ public class BookingService {
 		}
 
 		slot.reserve();
-		long total = QuoteCalculator.quote(vehicle).totalCents();
+		long total = quoteCalculator.quote(vehicle).totalCents();
 		Booking booking = new Booking(users.getReferenceById(user.id()), vehicle, slot, BookingStatus.REQUESTED, total, now);
 		return BookingResponse.from(bookings.save(booking));
 	}

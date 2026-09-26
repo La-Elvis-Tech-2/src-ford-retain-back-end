@@ -35,12 +35,17 @@ public class VehicleService {
 	private final VehicleRepository vehicles;
 	private final UserRepository users;
 	private final BookingRepository bookings;
+	private final HealthCalculator healthCalculator;
+	private final QuoteCalculator quoteCalculator;
 	private final Clock clock;
 
-	public VehicleService(VehicleRepository vehicles, UserRepository users, BookingRepository bookings, Clock clock) {
+	public VehicleService(VehicleRepository vehicles, UserRepository users, BookingRepository bookings,
+			HealthCalculator healthCalculator, QuoteCalculator quoteCalculator, Clock clock) {
 		this.vehicles = vehicles;
 		this.users = users;
 		this.bookings = bookings;
+		this.healthCalculator = healthCalculator;
+		this.quoteCalculator = quoteCalculator;
 		this.clock = clock;
 	}
 
@@ -89,11 +94,11 @@ public class VehicleService {
 	}
 
 	public HealthReport health(Long id, AuthenticatedUser user) {
-		return HealthCalculator.report(get(id, user));
+		return healthCalculator.report(get(id, user));
 	}
 
 	public ServiceQuote quote(Long id, AuthenticatedUser user) {
-		return QuoteCalculator.quote(get(id, user));
+		return quoteCalculator.quote(get(id, user));
 	}
 
 	/** Grava a leitura que a integração com os módulos do veículo enviou. */
