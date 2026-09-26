@@ -83,10 +83,12 @@ curl -s localhost:8080/vehicles/1/health -H "Authorization: Bearer $TOKEN"
 
 ## Arquitetura
 
-A aplicação é um monólito em camadas, organizado por funcionalidade. Cada
-módulo (`auth`, `user`, `vehicle`, `dealer`, `booking`, `news`) tem seu
-controller, service, repository e DTOs; segurança, erros e documentação são
-transversais.
+A aplicação é organizada em camadas, cada uma num pacote com uma
+responsabilidade só. Uma requisição percorre sempre o mesmo caminho: a camada
+de segurança valida o token, o controller recebe o DTO de entrada, o service
+aplica as regras de negócio (apoiado pelos components de cálculo), o repository
+acessa o banco e a resposta volta como DTO de saída. As entidades do `model`
+nunca saem da API.
 
 ```mermaid
 flowchart TB
@@ -94,21 +96,21 @@ flowchart TB
     SW["Swagger UI"]
 
     subgraph API["Ford Retain API · Spring Boot"]
-        SEC["Cadeia de segurança<br/>CORS · validação do JWT · regras por rota"]
-        CTRL["Controllers REST<br/>recursos, métodos e status HTTP · validação da entrada"]
-        SVC["Services<br/>regras de negócio · posse dos dados · transações"]
-        REPO["Repositories<br/>Spring Data JPA"]
-        TOK["TokenService<br/>emissão do JWT HS256"]
-        ERR["ApiExceptionHandler<br/>erros em Problem Details"]
-        DOM["Domínio<br/>HealthCalculator · QuoteCalculator · BookingStatus"]
-        DOC["springdoc<br/>OpenAPI e Swagger UI"]
+        SEC["security<br/>SecurityConfig · JwtConfig<br/>validação do JWT · regras por rota"]
+        CTRL["controller<br/>recursos REST · métodos e status HTTP"]
+        SVC["service<br/>regras de negócio · posse dos dados<br/>transações · TokenService"]
+        COMP["component<br/>HealthCalculator · QuoteCalculator"]
+        REPO["repository<br/>Spring Data JPA"]
+        DTO["dto<br/>request validado · response"]
+        MODEL["model<br/>entidades JPA · enums"]
+        EXC["exception<br/>ApiExceptionHandler · Problem Details"]
 
         SEC --> CTRL --> SVC --> REPO
-        CTRL -.->|"POST /auth/login"| TOK
-        SEC -.->|"401 e 403"| ERR
-        CTRL -.->|"exceções"| ERR
-        SVC --> DOM
-        DOC -.->|"lê as anotações"| CTRL
+        SVC --> COMP
+        CTRL -.->|"recebe e devolve"| DTO
+        REPO -.->|"persiste"| MODEL
+        SEC -.->|"401 e 403"| EXC
+        CTRL -.->|"exceções"| EXC
     end
 
     DB[("H2<br/>esquema versionado pelo Flyway")]
@@ -118,31 +120,35 @@ flowchart TB
     REPO --> DB
 ```
 
-| Componente | Responsabilidade |
-| --- | --- |
-| Cadeia de segurança (`security/SecurityConfig`) | Separa rotas públicas das protegidas, valida o token em toda requisição e converte o perfil do token em permissões |
-| Controllers | Expõem os recursos, validam a entrada com Bean Validation e escolhem o status HTTP de cada resposta |
-| Services | Aplicam as regras de negócio e a posse dos dados: cliente só vê o que é dele, atendente só o que é da sua concessionária |
-| Regras de domínio (`vehicle/health`, `BookingStatus`) | Cálculo do laudo, montagem da revisão e ciclo de vida do agendamento, em código puro e testado isoladamente |
-| Repositories | Acesso ao banco com Spring Data JPA; listagens com `@EntityGraph` para evitar consultas N+1 |
-| `TokenService` e `JwtConfig` | Emitem e validam o JWT |
-| `ApiExceptionHandler` | Traduz toda exceção, inclusive as de segurança, para o mesmo formato de erro |
-| Flyway (`db/migration`) | Versiona o esquema do banco; o Hibernate só valida o mapeamento (`ddl-auto: validate`) |
-| `DemoDataSeeder` | Popula concessionárias, agenda, contas, veículos e novidades quando o banco está vazio |
+| Camada | Responsabilidade | Classes |
+| --- | --- | --- |
+| `controller` | Expõe os recursos REST: rota, método HTTP, validação da entrada (`@Valid`), perfil exigido (`@PreAuthorize`) e status da resposta. Não tem regra de negócio | `AuthController`, `UserController`, `VehicleController`, `DealerController`, `BookingController`, `NewsController` |
+| `service` | Casos de uso e regras de negócio: posse dos dados, conflitos, ciclo de vida do agendamento e transações. Emite o token no login | `AuthService`, `TokenService`, `UserService`, `VehicleService`, `DealerService`, `BookingService`, `NewsService` |
+| `component` | Cálculos reutilizáveis injetados nos services, sem acesso a banco e testados isoladamente | `HealthCalculator` (laudo de saúde), `QuoteCalculator` (revisão recomendada) |
+| `repository` | Acesso a dados com Spring Data JPA; listagens com `@EntityGraph` para evitar consultas N+1 | `UserRepository`, `VehicleRepository`, `DealerRepository`, `ServiceSlotRepository`, `BookingRepository`, `NewsRepository` |
+| `model` | Entidades JPA e, em `model/enums`, os valores de domínio: perfis, status de saúde e de agendamento, tipos de componente | `User`, `Vehicle`, `VehicleComponent`, `Dealer`, `ServiceSlot`, `Booking`, `News` |
+| `dto` | Contrato da API: `dto/request` com as validações de entrada e `dto/response` com o formato de cada resposta | `VehicleRequest`, `HealthReport`, `ServiceQuote`, `TokenResponse`... |
+| `security` | Cadeia de filtros, rotas públicas e protegidas, validação do JWT, conversão do perfil em permissões e usuário autenticado | `SecurityConfig`, `JwtConfig`, `JwtProperties`, `AuthenticatedUser` |
+| `exception` | Exceções de negócio com status e código, e o handler que converte toda falha em Problem Details | `ApiExceptionHandler`, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
+| `config` | OpenAPI, relógio da aplicação, MVC e carga dos dados de demonstração | `OpenApiConfig`, `ClockConfig`, `WebConfig`, `DemoDataSeeder` |
+| `db/migration` | Esquema do banco versionado pelo Flyway; o Hibernate só valida o mapeamento (`ddl-auto: validate`) | `V1__create_schema.sql` |
 
 ```
 src/main/java/com/fordretain/api
-├── auth/          cadastro e login
-├── user/          contas e perfis
-├── vehicle/       veículos e componentes
-│   └── health/    laudo de saúde e revisão recomendada
-├── dealer/        concessionárias e horários da oficina
-├── booking/       agendamentos e ciclo de vida
-├── news/          novidades da rede
-├── security/      cadeia de filtros, JWT e usuário autenticado
-├── common/error/  exceções de negócio e respostas de erro
-├── config/        OpenAPI, relógio e MVC
-└── seed/          dados de demonstração
+├── controller/        endpoints REST
+├── service/           regras de negócio e emissão do token
+├── component/         cálculo do laudo e da revisão recomendada
+├── repository/        acesso a dados (Spring Data JPA)
+├── model/             entidades JPA
+│   └── enums/         perfis, status e tipos de componente
+├── dto/
+│   ├── request/       entrada validada
+│   └── response/      formato das respostas
+├── security/          filtros, JWT e usuário autenticado
+├── exception/         exceções e respostas de erro padronizadas
+└── config/            OpenAPI, relógio, MVC e dados de demonstração
+src/main/resources/db/migration     esquema do banco (Flyway)
+src/test/java/com/fordretain/api    testes, nos mesmos pacotes das camadas
 ```
 
 ### Fluxo de comunicação e autenticação
