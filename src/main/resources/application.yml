@@ -22,6 +22,14 @@ management:
       exposure:
         include: health
 
+springdoc:
+  override-with-generic-response: false
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+    persist-authorization: true
+
 app:
   security:
     jwt:
